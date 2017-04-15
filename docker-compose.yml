@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  dbaccess:
+    image: dbaccess
+    build:
+      context: ./dbaccess
+      dockerfile: Dockerfile
