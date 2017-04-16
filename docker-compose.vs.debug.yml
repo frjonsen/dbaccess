@@ -1,8 +1,17 @@
 version: '2'
 
 services:
+  db:
+    image: postgres:latest
+    networks:
+      - backend
+    ports:
+      - 5432:5432
+
   dbaccess:
     image: dbaccess:dev
+    networks:
+      - backend
     build:
       args:
         source: ${DOCKER_BUILD_SOURCE}
@@ -15,3 +24,8 @@ services:
     entrypoint: tail -f /dev/null
     labels:
       - "com.microsoft.visualstudio.targetoperatingsystem=linux"
+    depends_on:
+      - db
+
+networks:
+  backend:

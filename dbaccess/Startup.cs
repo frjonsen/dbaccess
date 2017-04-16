@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using dbaccess.Models;
 
 namespace dbaccess
 {
@@ -29,6 +31,12 @@ namespace dbaccess
         {
             // Add framework services.
             services.AddMvc();
+
+            
+            var connection = @"Host=db;Username=postgres;Database=userdatabase";
+            var conn = new Npgsql.NpgsqlConnection(connection);
+            services.AddDbContext<UserContext>(options => options.UseNpgsql(conn));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +46,11 @@ namespace dbaccess
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            using (var conn = app.ApplicationServices.GetRequiredService<UserContext>())
+            {
+                conn.Database.EnsureCreated();
+            }
         }
     }
 }

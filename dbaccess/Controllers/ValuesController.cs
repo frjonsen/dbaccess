@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using dbaccess.Models;
 
 namespace dbaccess.Controllers
 {
@@ -11,9 +12,17 @@ namespace dbaccess.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        //public string Get(UserContext context)
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            //return "Welcome";
+            User user = new Models.User();
+            user.Name = "Some name";
+            //context.Users.Add(user);
+            //var u = context.Users.First();
+            //var name = u.Name;
+            return user.Name;
+            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
